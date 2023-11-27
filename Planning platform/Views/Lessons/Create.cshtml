@@ -9,10 +9,10 @@
     // var cat = categories
     //         .FirstOrDefault(g => g.Id == @Model.Class_id).Num_of_class;
 
-    foreach (var i in classes)
-    {
-        <h5>@i.Num_of_class @i.Letter_of_class</h5> 
-    }
+    // foreach (var i in classes)
+    // {
+    //     <h5>@i.Num_of_class @i.Letter_of_class</h5> 
+    // }
 }
 
 
@@ -21,8 +21,8 @@
     {
         <a class="dropdown-item"
            asp-action="Index"
-           asp-controller="Lessons">
-           @item.Num_of_class
+           asp-controller="Lessons"
+        >@item.Num_of_class
            </a>
     }
 </div>
@@ -55,6 +55,11 @@
                 <label asp-for="teacher_id" class="control-label"></label>
                 <input asp-for="teacher_id" class="form-control" />
                 <span asp-validation-for="teacher_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Class_id" class="control-label"></label>
+                <input asp-for="Class_id" class="form-control" />
+                <span asp-validation-for="Class_id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
