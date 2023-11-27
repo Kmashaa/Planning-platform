@@ -1,0 +1,50 @@
+﻿@model Planning_platform.Entities.Lesson
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Lesson</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Day_of_week" class="control-label"></label>
+                <input asp-for="Day_of_week" class="form-control" />
+                <span asp-validation-for="Day_of_week" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Number_on_day" class="control-label"></label>
+                <input asp-for="Number_on_day" class="form-control" />
+                <span asp-validation-for="Number_on_day" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subject_id" class="control-label"></label>
+                <input asp-for="Subject_id" class="form-control" />
+                <span asp-validation-for="Subject_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="teacher_id" class="control-label"></label>
+                <input asp-for="teacher_id" class="form-control" />
+                <span asp-validation-for="teacher_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

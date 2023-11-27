@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Planning_platform.Entities.Lesson>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Day_of_week)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Number_on_day)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.teacher_id)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Day_of_week)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number_on_day)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.teacher_id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
