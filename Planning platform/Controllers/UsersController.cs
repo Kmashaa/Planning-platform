@@ -1,17 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Planning_platform.Data;
 using Planning_platform.Entities;
 using Planning_platform.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Planning_platform.Controllers
 {
     public class UsersController : Controller
     {
+
 
         public ApplicationDbContext _context;
 
@@ -20,10 +25,9 @@ namespace Planning_platform.Controllers
         {
             _userManager = userManager;
             _context = context;
-
         }
 
-        public IActionResult Index() => View(_userManager.Users.ToList());
+        public async Task<IActionResult> Index() => View(_userManager.Users.ToList());
 
 
 
@@ -73,7 +77,7 @@ namespace Planning_platform.Controllers
             ApplicationUser user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                var userClass = user.Class_id;
+                var userClass = user.ClassId;
                 var allClasses = await _context.Classes.ToListAsync();
                 // получем список ролей пользователя
                // var userRoles = await _userManager.GetRolesAsync(user);
@@ -94,14 +98,18 @@ namespace Planning_platform.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string userId, List<int> classes)
         {
+            
             // получаем пользователя
-            ApplicationUser user = await _userManager.FindByIdAsync(userId);
+            var user = await _context.Users
+                    .FirstOrDefaultAsync(m => m.Id == userId);
+
+            //ApplicationUser user = await _userManager.FindByIdAsync(userId).Include(l => l.Class);
             if (user != null)
             {
                 // получем список ролей пользователя
                 var userRoles = await _userManager.GetRolesAsync(user);
                 int k = classes[0];
-                user.Class_id = classes[0];
+                user.ClassId = classes[0];
                 // user.Class_id = (int)classes[0];
                 // получаем все роли
                 //var allRoles = _roleManager.Roles.ToList();
@@ -143,5 +151,21 @@ namespace Planning_platform.Controllers
                 return View();
             }
         }
+
+        private ApplicationUser CreateUser()
+        {
+            try
+            {
+                return Activator.CreateInstance<ApplicationUser>();
+            }
+            catch
+            {
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
+                    $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+            }
+        }
+       
+
     }
 }

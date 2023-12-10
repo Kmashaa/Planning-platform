@@ -22,15 +22,15 @@ namespace Planning_platform.Controllers
             _userManager = userManager;
         }
 
-        [Authorize(Roles = "moderator")]
+        //[Authorize(Roles = "moderator")]
         public IActionResult Index() => View(_roleManager.Roles.ToList());
 
 
-        [Authorize(Roles = "moderator")]
+       // [Authorize(Roles = "moderator")]
         public IActionResult Create() => View();
 
 
-        [Authorize(Roles = "moderator")]
+       // [Authorize(Roles = "moderator")]
         [HttpPost]
         public async Task<IActionResult> Create(string name)
         {
@@ -53,7 +53,7 @@ namespace Planning_platform.Controllers
         }
 
 
-        [Authorize(Roles = "moderator")]
+       // [Authorize(Roles = "moderator")]
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -65,11 +65,11 @@ namespace Planning_platform.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "moderator")]
+       // [Authorize(Roles = "moderator")]
         public IActionResult UserList() => View(_userManager.Users.ToList());
 
 
-        [Authorize(Roles = "moderator")]
+       // [Authorize(Roles = "moderator")]
         public async Task<IActionResult> Edit(string userId)
         {
             // получаем пользователя
@@ -93,7 +93,7 @@ namespace Planning_platform.Controllers
         }
 
 
-        [Authorize(Roles = "moderator")]
+        //[Authorize(Roles = "moderator")]
         [HttpPost]
         public async Task<IActionResult> Edit(string userId, List<string> roles)
         {

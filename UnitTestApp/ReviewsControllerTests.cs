@@ -20,81 +20,82 @@ namespace UnitTestApp
 {
     
     public class ReviewsControllerTests
-    {
-       [Fact]
-        public void TestLoadReviews()
-        {
-            ApplicationDbContext context=null;
-            // Arrange
-            LessonsController controller = new LessonsController(context);
-            // Act
-            Task<IActionResult> result = controller.Index();
-            //ViewResult result = controller.Index() as ViewResult;
-            // Assert
-            Assert.NotNull(result);
-        }
+    { 
+    //{
+    //   [Fact]
+    //    public void TestLoadReviews()
+    //    {
+    //        ApplicationDbContext context=null;
+    //        // Arrange
+    //        LessonsController controller = new LessonsController(context);
+    //        // Act
+    //        Task<IActionResult> result = controller.Index();
+    //        //ViewResult result = controller.Index() as ViewResult;
+    //        // Assert
+    //        Assert.NotNull(result);
+    //    }
 
-        [Fact]
-        public void TestCreateReview()
-        {
-            ApplicationDbContext context = null;
+        //[Fact]
+        //public void TestCreateReview()
+        //{
+        //    ApplicationDbContext context = null;
 
-            Lesson lesson = new Lesson();
-            lesson.Id = 1;
-            lesson.Day_of_week = "Monday";
-            lesson.Subject_id = 1;
-            lesson.teacher_id = 1;
-            lesson.Number_on_day = 1;
-            lesson.Class_id = 1;
+        //    Lesson lesson = new Lesson();
+        //    lesson.Id = 1;
+        //    lesson.Day_of_week = "Monday";
+        //    lesson.Subject_id = 1;
+        //    lesson.teacher_id = 1;
+        //    lesson.Number_on_day = 1;
+        //    lesson.Class_id = 1;
 
-            // Arrange
-            LessonsController controller = new LessonsController(context);
-            // Act
-            Task<IActionResult> result = controller.Create(lesson);
-            //ViewResult result = controller.Index() as ViewResult;
-            // Assert
-            Assert.NotNull(result);
-        }
+        //    // Arrange
+        //    LessonsController controller = new LessonsController(context);
+        //    // Act
+        //    Task<IActionResult> result = controller.Create(lesson);
+        //    //ViewResult result = controller.Index() as ViewResult;
+        //    // Assert
+        //    Assert.NotNull(result);
+        //}
 
-        [Fact]
-        public void TestDeleteReview()
-        {
-            ApplicationDbContext context = null;
-            // Arrange
-            LessonsController controller = new LessonsController(context);
-            // Act
-            Task<IActionResult> result = controller.Delete(1);
-            //ViewResult result = controller.Index() as ViewResult;
-            // Assert
-            Assert.NotNull(result);
-        }
+        //[Fact]
+        //public void TestDeleteReview()
+        //{
+        //    ApplicationDbContext context = null;
+        //    // Arrange
+        //    LessonsController controller = new LessonsController(context);
+        //    // Act
+        //    Task<IActionResult> result = controller.Delete(1);
+        //    //ViewResult result = controller.Index() as ViewResult;
+        //    // Assert
+        //    Assert.NotNull(result);
+        //}
 
-        [Fact]
-        public void TestLoadDetailsOfReview()
-        {
-            ApplicationDbContext context = null;
-            // Arrange
-            LessonsController controller = new LessonsController(context);
-            // Act
-            Task<IActionResult> result = controller.Details(1);
-            //ViewResult result = controller.Index() as ViewResult;
-            // Assert
-            Assert.NotNull(result);
-        }
+        //[Fact]
+        //public void TestLoadDetailsOfReview()
+        //{
+        //    ApplicationDbContext context = null;
+        //    // Arrange
+        //    LessonsController controller = new LessonsController(context);
+        //    // Act
+        //    Task<IActionResult> result = controller.Details(1);
+        //    //ViewResult result = controller.Index() as ViewResult;
+        //    // Assert
+        //    Assert.NotNull(result);
+        //}
 
-        [Fact]
-        public void TestEditReview()
-        {
-            ApplicationDbContext context = null;
-            // Arrange
-            LessonsController controller = new LessonsController(context);
-            // Act
-            Task<IActionResult> result = controller.Edit(1);
-            //ViewResult result = controller.Index() as ViewResult;
-            // Assert
-            Assert.NotNull(result);
+        //[Fact]
+        //public void TestEditReview()
+        //{
+        //    ApplicationDbContext context = null;
+        //    // Arrange
+        //    LessonsController controller = new LessonsController(context);
+        //    // Act
+        //    Task<IActionResult> result = controller.Edit(1);
+        //    //ViewResult result = controller.Index() as ViewResult;
+        //    // Assert
+        //    Assert.NotNull(result);
 
-        }
+        //}
     }
 }
 

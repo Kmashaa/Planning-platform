@@ -4,5 +4,7 @@
     {
         public int Id { get; set; }
         public string Subject_name { get; set; }
+        public IList<Lesson> Lessons { get; } = new List<Lesson>();
+
     }
 }

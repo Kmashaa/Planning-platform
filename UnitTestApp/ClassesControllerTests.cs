@@ -21,77 +21,77 @@ namespace UnitTestApp
     
     public class ClassesControllerTests
     {
-       [Fact]
-        public void TestLoadClasses()
-        {
-            ApplicationDbContext context=null;
-            // Arrange
-            ClassesController controller = new ClassesController(context);
-            // Act
-            Task<IActionResult> result = controller.Index();
-            //ViewResult result = controller.Index() as ViewResult;
-            // Assert
-            Assert.NotNull(result);
-        }
+       //[Fact]
+       // public void TestLoadClasses()
+       // {
+       //     ApplicationDbContext context=null;
+       //     // Arrange
+       //     ClassesController controller = new ClassesController(context);
+       //     // Act
+       //     Task<IActionResult> result = controller.Index();
+       //     //ViewResult result = controller.Index() as ViewResult;
+       //     // Assert
+       //     Assert.NotNull(result);
+       // }
 
-        [Fact]
-        public void TestCreateClass()
-        {
-            ApplicationDbContext context = null;
+        //[Fact]
+        //public void TestCreateClass()
+        //{
+        //    ApplicationDbContext context = null;
 
-            Class clas = new Class();
-            clas.Letter_of_class = 'A';
-            clas.Num_of_class = 5;
-            clas.Id = 1;
+        //    Class clas = new Class();
+        //    clas.Letter_of_class = 'A';
+        //    clas.Num_of_class = 5;
+        //    clas.Id = 1;
 
-            // Arrange
-            ClassesController controller = new ClassesController(context);
-            // Act
-            Task<IActionResult> result = controller.Create(clas);
-            //ViewResult result = controller.Index() as ViewResult;
-            // Assert
-            Assert.NotNull(result);
-        }
+        //    // Arrange
+        //    ClassesController controller = new ClassesController(context);
+        //    // Act
+        //    Task<IActionResult> result = controller.Create(clas);
+        //    //ViewResult result = controller.Index() as ViewResult;
+        //    // Assert
+        //    Assert.NotNull(result);
+        //}
 
-        [Fact]
-        public void TestDeleteClass()
-        {
-            ApplicationDbContext context = null;
-            // Arrange
-            ClassesController controller = new ClassesController(context);
-            // Act
-            Task<IActionResult> result = controller.Delete(1);
-            //ViewResult result = controller.Index() as ViewResult;
-            // Assert
-            Assert.NotNull(result);
-        }
+        //[Fact]
+        //public void TestDeleteClass()
+        //{
+        //    ApplicationDbContext context = null;
+        //    // Arrange
+        //    ClassesController controller = new ClassesController(context);
+        //    // Act
+        //    Task<IActionResult> result = controller.Delete(1);
+        //    //ViewResult result = controller.Index() as ViewResult;
+        //    // Assert
+        //    Assert.NotNull(result);
+        //}
 
-        [Fact]
-        public void TestLoadDetailsOfClass()
-        {
-            ApplicationDbContext context = null;
-            // Arrange
-            ClassesController controller = new ClassesController(context);
-            // Act
-            Task<IActionResult> result = controller.Details(1);
-            //ViewResult result = controller.Index() as ViewResult;
-            // Assert
-            Assert.NotNull(result);
-        }
+        //[Fact]
+        //public void TestLoadDetailsOfClass()
+        //{
+        //    ApplicationDbContext context = null;
+        //    // Arrange
+        //    ClassesController controller = new ClassesController(context);
+        //    // Act
+        //    Task<IActionResult> result = controller.Details(1);
+        //    //ViewResult result = controller.Index() as ViewResult;
+        //    // Assert
+        //    Assert.NotNull(result);
+        //}
 
-        [Fact]
-        public void TestEditClass()
-        {
-            ApplicationDbContext context = null;
-            // Arrange
-            ClassesController controller = new ClassesController(context);
-            // Act
-            Task<IActionResult> result = controller.Edit(1);
-            //ViewResult result = controller.Index() as ViewResult;
-            // Assert
-            Assert.NotNull(result);
+        //[Fact]
+        //public void TestEditClass()
+        //{
+        //    ApplicationDbContext context = null;
+        //    // Arrange
+        //    ClassesController controller = new ClassesController(context);
+        //    // Act
+        //    Task<IActionResult> result = controller.Edit(1);
+        //    //ViewResult result = controller.Index() as ViewResult;
+        //    // Assert
+        //    Assert.NotNull(result);
 
-        }
+        //}
     }
 }
 

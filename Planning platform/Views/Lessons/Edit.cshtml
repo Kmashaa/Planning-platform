@@ -1,4 +1,4 @@
-﻿@model Planning_platform.Entities.Lesson
+﻿@model Planning_platform.Models.LessonModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -25,14 +25,19 @@
                 <span asp-validation-for="Number_on_day" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Subject_id" class="control-label"></label>
-                <input asp-for="Subject_id" class="form-control" />
-                <span asp-validation-for="Subject_id" class="text-danger"></span>
+                <label asp-for="SubjectId" class="control-label"></label>
+                <select asp-for="SubjectId" class="form-control" asp-items="ViewBag.SubjectId"></select>
+                <span asp-validation-for="SubjectId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="teacher_id" class="control-label"></label>
-                <input asp-for="teacher_id" class="form-control" />
-                <span asp-validation-for="teacher_id" class="text-danger"></span>
+                <label asp-for="ClassId" class="control-label"></label>
+                <select asp-for="ClassId" class="form-control" asp-items="ViewBag.ClassId"></select>
+                <span asp-validation-for="ClassId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeacherId" class="control-label"></label>
+                <input asp-for="TeacherId" class="form-control" />
+                <span asp-validation-for="TeacherId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

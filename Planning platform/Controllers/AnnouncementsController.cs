@@ -56,8 +56,12 @@ namespace Planning_platform.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Text,Date,Moderator_id")] Announcement announcement)
+        public async Task<IActionResult> Create([Bind("Id,Text,Date")] Announcement announcement)
         {
+            var uid = User.Claims.ToList().First().Value;
+            announcement.ModeratorId = uid;
+            announcement.Moderator = null;
+            //var uid = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
                 _context.Add(announcement);
@@ -88,7 +92,7 @@ namespace Planning_platform.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Text,Date,Moderator_id")] Announcement announcement)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Text,Date")] Announcement announcement)
         {
             if (id != announcement.Id)
             {

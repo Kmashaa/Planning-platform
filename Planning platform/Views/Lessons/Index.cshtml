@@ -4,7 +4,95 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    if (User.IsInRole("student"))
+    {
+      <table class="table">
+         <thead>
+                <tr>
+                    <th>
+                         Monday
+                    </th>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Day_of_week == "Monday")
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Subject.Subject_name)
+                            </td>
+                        }
 
+                    }
+                </tr>
+                <tr>
+                    <th>
+                        Tuesday
+                    </th>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Day_of_week == "Tuesday")
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Subject.Subject_name)
+                            </td>
+                        }
+
+                    }
+                </tr>
+                <tr>
+                    <th>
+                        Wednesday
+                    </th>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Day_of_week == "Wednesday")
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Subject.Subject_name)
+                            </td>
+                        }
+
+                    }
+                </tr>
+                <tr>
+                    <th>
+                        Thursday
+                    </th>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Day_of_week == "Thursday")
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Subject.Subject_name)
+                            </td>
+                        }
+
+                    }
+                </tr>
+                <tr>
+                    <th>
+                        Friday
+                    </th>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Day_of_week == "Friday")
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Subject.Subject_name)
+                            </td>
+                        }
+
+                    }
+                </tr>
+
+
+            </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    }
+}
 <h1>Index</h1>
 
 <p>
@@ -20,11 +108,14 @@
                 @Html.DisplayNameFor(model => model.Number_on_day)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Subject_id)
+                @Html.DisplayNameFor(model => model.Subject)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.teacher_id)
+                @Html.DisplayNameFor(model => model.Class)
             </th>
+@*             <th>
+                @Html.DisplayNameFor(model => model.TeacherId)
+            </th> *@
             <th></th>
         </tr>
     </thead>
@@ -38,11 +129,14 @@
                 @Html.DisplayFor(modelItem => item.Number_on_day)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Subject_id)
+                @Html.DisplayFor(modelItem => item.Subject.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.teacher_id)
+                @Html.DisplayFor(modelItem => item.Class.Id)
             </td>
+@*             <td>
+                @Html.DisplayFor(modelItem => item.TeacherId)
+            </td> *@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

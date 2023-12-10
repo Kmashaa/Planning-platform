@@ -1,30 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Office.Interop.Excel;
 using Planning_platform.Data;
 using Planning_platform.Entities;
+using Planning_platform.Migrations;
 
 namespace Planning_platform.Controllers
 {
     public class PlansController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public PlansController(ApplicationDbContext context)
+        RoleManager<IdentityRole> _roleManager;
+        UserManager<ApplicationUser> _userManager;
+        public PlansController(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         // GET: Plans
         public async Task<IActionResult> Index()
         {
-              return _context.Plans != null ? 
-                          View(await _context.Plans.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Plans'  is null.");
+            var applicationDbContext = _context.Plans.Include(p => p.Lesson);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Plans/Details/5
@@ -36,6 +42,7 @@ namespace Planning_platform.Controllers
             }
 
             var plan = await _context.Plans
+                .Include(p => p.Lesson)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (plan == null)
             {
@@ -46,8 +53,45 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Plans/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            // Загрузить файл Excel
+            var wb = new Aspose.Cells.Workbook("C:\\Users\\user\\Desktop\\математика 7 класс.xlsx");
+            var collection = wb.Worksheets;
+            for (int worksheetIndex = 0; worksheetIndex < collection.Count; worksheetIndex++)
+            {
+                var worksheet = collection[worksheetIndex];
+                int rows = worksheet.Cells.MaxDataRow;
+                int cols = worksheet.Cells.MaxDataColumn;
+                List<Plan> plans = new List<Plan>();
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                var lessons =  _context.Lessons.Include(p=>p.Subject).Include(p=>p.Class).ToList().Where(p => p.ClassId == user.ClassId);
+                int lessonscounter = 0;
+                var cell = worksheet.Cells[3, 3].Value;
+
+                //while (true)
+                //{
+                //}
+                for (int i = 3; i < rows; i++)
+                {
+
+                    // Перебрать каждый столбец в выбранной строке
+                    for (int j = 0; j < cols; j++)
+                    {
+                        // Значение ячейки Pring
+                        Console.Write(worksheet.Cells[i, j].Value + " | ");
+                    }
+                    // Распечатать разрыв строки
+                    Console.WriteLine(" ");
+                }
+            }
+
+                wb.Save("C:\\Users\\user\\Desktop\\output.pdf", Aspose.Cells.SaveFormat.Pdf);
+
+            // Получить рабочий лист, используя его индекс
+            //Worksheet worksheet = wb.Worksheets[0];
+
+            //ViewData["LessonId"] = new SelectList(_context.Lessons, "Id", "Id");
             return View();
         }
 
@@ -56,7 +100,7 @@ namespace Planning_platform.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Lesson_id,Date")] Plan plan)
+        public async Task<IActionResult> Create([Bind("Id,LessonId,Date")] Plan plan)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +108,7 @@ namespace Planning_platform.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["LessonId"] = new SelectList(_context.Lessons, "Id", "Id", plan.LessonId);
             return View(plan);
         }
 
@@ -80,6 +125,7 @@ namespace Planning_platform.Controllers
             {
                 return NotFound();
             }
+            ViewData["LessonId"] = new SelectList(_context.Lessons, "Id", "Id", plan.LessonId);
             return View(plan);
         }
 
@@ -88,7 +134,7 @@ namespace Planning_platform.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Lesson_id,Date")] Plan plan)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LessonId,Date")] Plan plan)
         {
             if (id != plan.Id)
             {
@@ -115,6 +161,7 @@ namespace Planning_platform.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["LessonId"] = new SelectList(_context.Lessons, "Id", "Id", plan.LessonId);
             return View(plan);
         }
 
@@ -127,6 +174,7 @@ namespace Planning_platform.Controllers
             }
 
             var plan = await _context.Plans
+                .Include(p => p.Lesson)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (plan == null)
             {

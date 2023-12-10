@@ -1,4 +1,4 @@
-﻿@model Planning_platform.Entities.Lesson
+﻿@model Planning_platform.Models.LessonModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -25,16 +25,22 @@
             @Html.DisplayFor(model => model.Number_on_day)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Subject_id)
+            @Html.DisplayNameFor(model => model.Subject)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Subject_id)
+            @Html.DisplayFor(model => model.Subject.Id)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.teacher_id)
+            @Html.DisplayNameFor(model => model.Class)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.teacher_id)
+            @Html.DisplayFor(model => model.Class.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TeacherId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TeacherId)
         </dd>
     </dl>
     

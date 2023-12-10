@@ -1,5 +1,5 @@
-﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser> 
-@* @model  IEnumerable<Planning_platform.Entities.ApplicationUser> *@
+﻿@* @model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>  *@
+@model  IEnumerable<Planning_platform.Entities.ApplicationUser> 
 
 
 <h2>Список пользователей</h2>
@@ -22,7 +22,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patronymic)
             </td>
             <td>
                 <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-userid="@item.Id">Редактировать класс</a>

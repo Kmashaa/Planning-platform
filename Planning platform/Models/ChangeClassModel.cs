@@ -8,7 +8,7 @@ namespace Planning_platform.Models
         public string UserId { get; set; }
         public string UserEmail { get; set; }
         public List<Planning_platform.Entities.Class> AllClasses { get; set; }
-        public int UserClasses {  get; set; }
+        public int? UserClasses {  get; set; }
         //public IList<string> UserClasses { get; set; }
         public ChangeClassModel()
         {
