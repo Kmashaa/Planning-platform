@@ -5,27 +5,13 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var classes = ViewData["Classes"] as IEnumerable<Class>;
-    // int currentGroup = (int)ViewData["CurrentGroup"];
-    // var cat = categories
-    //         .FirstOrDefault(g => g.Id == @Model.Class_id).Num_of_class;
+    var subjects = ViewData["Subjects"] as IEnumerable<Subject>;
+    var teachers = ViewData["Teachers"] as IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>;
 
-    // foreach (var i in classes)
-    // {
-    //     <h5>@i.Num_of_class @i.Letter_of_class</h5> 
-    // }
 }
 
 
-<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    @foreach (var item in classes)
-    {
-        <a class="dropdown-item"
-           asp-action="Index"
-           asp-controller="Lessons"
-        >@item.Num_of_class
-           </a>
-    }
-</div>
+
 
 <h1>Create</h1>
 
@@ -33,13 +19,14 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="Day_of_week" class="control-label"></label>
-                <input asp-for="Day_of_week" class="form-control" />
-                <span asp-validation-for="Day_of_week" class="text-danger"></span>
+                <select asp-for="Day_of_week">
+                    <option  value="Monday">Monday</option>
+                    <option value="Thusday">Thusday</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Number_on_day" class="control-label"></label>
@@ -47,19 +34,27 @@
                 <span asp-validation-for="Number_on_day" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Subject_id" class="control-label"></label>
-                <input asp-for="Subject_id" class="form-control" />
-                <span asp-validation-for="Subject_id" class="text-danger"></span>
+                <select asp-for="teacher_id" class="custom-select my-1 mr-sm-2">
+                    @foreach (var item in teachers)
+                    {
+                        <option value=@item.Id>@item.Email</option>
+                    }
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="teacher_id" class="control-label"></label>
-                <input asp-for="teacher_id" class="form-control" />
-                <span asp-validation-for="teacher_id" class="text-danger"></span>
+                <select asp-for="Subject_id" class="custom-select my-1 mr-sm-2">
+                    @foreach (var item in subjects)
+                    {
+                        <option value=@item.Id>@item.Subject_name</option>
+                    }
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="Class_id" class="control-label"></label>
-                <input asp-for="Class_id" class="form-control" />
-                <span asp-validation-for="Class_id" class="text-danger"></span>
+            <div class="form-group col-md-4">
+                <select asp-for="Class_id" class="custom-select my-1 mr-sm-2">
+                    @foreach (var item in classes){
+                        <option value=@item.Id >@item.Num_of_class @item.Letter_of_class</option>
+                    }
+                </select> 
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

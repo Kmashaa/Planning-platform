@@ -22,7 +22,7 @@ namespace UnitTestApp
     public class ClassesControllerTests
     {
        [Fact]
-        public void TestLoadIndexView()
+        public void TestLoadClasses()
         {
             ApplicationDbContext context=null;
             // Arrange
@@ -35,7 +35,7 @@ namespace UnitTestApp
         }
 
         [Fact]
-        public void TestLoadCreateView()
+        public void TestCreateClass()
         {
             ApplicationDbContext context = null;
 
@@ -54,7 +54,7 @@ namespace UnitTestApp
         }
 
         [Fact]
-        public void TestLoadDeleteView()
+        public void TestDeleteClass()
         {
             ApplicationDbContext context = null;
             // Arrange
@@ -67,7 +67,7 @@ namespace UnitTestApp
         }
 
         [Fact]
-        public void TestLoadDetailsView()
+        public void TestLoadDetailsOfClass()
         {
             ApplicationDbContext context = null;
             // Arrange
@@ -80,7 +80,7 @@ namespace UnitTestApp
         }
 
         [Fact]
-        public void TestLoadEditView()
+        public void TestEditClass()
         {
             ApplicationDbContext context = null;
             // Arrange

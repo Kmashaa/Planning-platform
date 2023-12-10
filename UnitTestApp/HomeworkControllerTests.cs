@@ -22,7 +22,7 @@ namespace UnitTestApp
     public class HomeworksControllerTests
     {
        [Fact]
-        public void TestLoadIndexView()
+        public void TestLoadHomeworks()
         {
             ApplicationDbContext context=null;
             // Arrange
@@ -35,7 +35,7 @@ namespace UnitTestApp
         }
 
         [Fact]
-        public void TestLoadCreateView()
+        public void TestCreateHomework()
         {
             ApplicationDbContext context = null;
 
@@ -57,7 +57,7 @@ namespace UnitTestApp
         }
 
         [Fact]
-        public void TestLoadDeleteView()
+        public void TestDeleteHomework()
         {
             ApplicationDbContext context = null;
             // Arrange
@@ -70,7 +70,7 @@ namespace UnitTestApp
         }
 
         [Fact]
-        public void TestLoadDetailsView()
+        public void TestLoadDetailsOfHomework()
         {
             ApplicationDbContext context = null;
             // Arrange
@@ -83,7 +83,7 @@ namespace UnitTestApp
         }
 
         [Fact]
-        public void TestLoadEditView()
+        public void TestEditHomework()
         {
             ApplicationDbContext context = null;
             // Arrange

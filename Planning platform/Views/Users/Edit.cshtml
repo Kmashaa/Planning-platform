@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Planning_platform.Entities
+
+@model Planning_platform.Models.ChangeClassModel
+
+<h2>Изменение класса для пользователя @Model.UserEmail</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" name="userId" value="@Model.UserId" />
+    <div class="form-group">
+        @foreach (Planning_platform.Entities.Class clas in Model.AllClasses)
+        {
+                <input type="radio" name="classes" value=@clas.Id
+                   @(Model.UserClasses==clas.Id ? "checked=\"checked\"" : "") />
+
+            @clas.Num_of_class @clas.Letter_of_class <br />
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>

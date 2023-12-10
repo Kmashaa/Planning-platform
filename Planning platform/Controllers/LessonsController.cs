@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,16 @@ namespace Planning_platform.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        UserManager<ApplicationUser> _userManager;
+        RoleManager<IdentityRole> _roleManager;
 
-        public LessonsController(ApplicationDbContext context)
+        public LessonsController(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
+
+
         }
 
         // GET: Lessons
@@ -47,15 +54,22 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Lessons/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var list = _context.Classes;
-            ViewData["Classes"] = _context.Classes;
-            //var currentGroup = group.HasValue
-            //                   ? group.Value
-            //                   : 0;
-
-            //ViewData["CurrentGroup"] = currentGroup;
+            ViewData["Classes"] = _context.Classes.ToList(); 
+            ViewData["Subjects"] = _context.Subjects.ToList();
+            var allRoles = _roleManager.Roles.ToList();
+            var users = _userManager.Users.ToList();
+            List<IdentityUser> teachers = new List<IdentityUser>();
+            foreach (var user in users)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (userRoles.Contains( "teacher"))
+                {
+                    teachers.Append(user);
+                }
+            }
+            ViewData["Teachers"] = teachers;
 
 
             return View();
@@ -66,15 +80,15 @@ namespace Planning_platform.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Day_of_week,Number_on_day,Subject_id,teacher_id")] Lesson lesson)
+        public async Task<IActionResult> Create([Bind("Day_of_week,Number_on_day,Subject_id,teacher_id,Class_id")] Lesson lesson)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 _context.Add(lesson);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(lesson);
+            //}
+            //return View(lesson);
         }
 
         // GET: Lessons/Edit/5
