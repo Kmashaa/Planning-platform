@@ -5,45 +5,70 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>Просмотр</h1>
 
 <div>
-    <h4>Lesson</h4>
+    <h4>Урока</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Day_of_week)
+            День недели
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Day_of_week)
+            @{
+                if (Model.Day_of_week == "Monday")
+                {
+                    <t>Понедельник</t>
+                }
+                else if (Model.Day_of_week == "Tuesday")
+                {
+                    <t>Вторник</t>
+                }
+                else if (Model.Day_of_week == "Wednesday")
+                {
+                    <t>Среда</t>
+                }
+                else if (Model.Day_of_week == "Thursday")
+                {
+                    <t>Четверг</t>
+                }
+                else if (Model.Day_of_week == "Friday")
+                {
+                    <t>Пятница</t>
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.Day_of_week)
+                }
+            }
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Number_on_day)
+           Номер
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Number_on_day)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Subject)
+            Предмет
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Subject.Subject_name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Class)
+            Класс
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Class.Num_of_class)  @Html.DisplayFor(model => model.Class.Letter_of_class)
+            @Model.Class.FullName
         </dd>
         <dt class = "col-sm-2">
             Teacher
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Teacher.Surname) @Html.DisplayFor(model => model.Teacher.Name) @Html.DisplayFor(model => model.Teacher.Patronymic)
+            @Model.Teacher.FullName
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Редактировать</a> |
+    <a asp-action="Index">Вернуться к списку</a>
 </div>

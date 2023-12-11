@@ -21,7 +21,7 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Announcements
-        [Authorize(Roles = "moderator")]
+        [Authorize(Roles = "moderator, teacher")]
 
         public async Task<IActionResult> Index()
         {
@@ -29,6 +29,8 @@ namespace Planning_platform.Controllers
                           View(await _context.Announcements.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Announcements'  is null.");
         }
+
+        // GET: Announcements
 
         // GET: Announcements/Details/5
         [Authorize(Roles = "moderator")]

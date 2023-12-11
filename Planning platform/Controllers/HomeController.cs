@@ -15,7 +15,16 @@ namespace Planning_platform.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Lessons");
+            }
+            else
+            {
+                return Redirect("~/Identity/Account/Login");
+            }
+            //return RedirectToAction(nameof(LessonsController.Index));
+            //return View("Index","Lessons");
         }
 
         public IActionResult Privacy()

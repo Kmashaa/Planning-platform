@@ -5,33 +5,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Создание</h1>
 
-<h4>Class</h4>
+<h4>Класса</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Num_of_class" class="control-label"></label>
+                <label asp-for="Num_of_class" class="control-label">Цифра</label>
                 <input asp-for="Num_of_class" class="form-control" />
                 <span asp-validation-for="Num_of_class" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Letter_of_class" class="control-label"></label>
+                <label asp-for="Letter_of_class" class="control-label">Буква</label>
                 <input asp-for="Letter_of_class" class="form-control" />
                 <span asp-validation-for="Letter_of_class" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Создать" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Вернуться к списку</a>
 </div>
 
 @section Scripts {

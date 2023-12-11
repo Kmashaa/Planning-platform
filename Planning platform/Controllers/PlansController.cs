@@ -85,7 +85,7 @@ namespace Planning_platform.Controllers
                 List<Homework> homeworks = new List<Homework>();
 
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                List<Lesson> lessons = _context.Lessons.Include(p => p.Subject).Include(p => p.Class).ToList().Where(p => p.ClassId == user.ClassId).Where(p=>p.SubjectId==1).ToList();
+                List<Lesson> lessons = _context.Lessons.Include(p => p.Subject).Include(p => p.Class).ToList().Where(p => p.ClassId == 1004).Where(p=>p.SubjectId==1).ToList();
                 int allLessonsCounter = 0;
                 var i = 3;
                 //var j = 3;
@@ -143,14 +143,25 @@ namespace Planning_platform.Controllers
                         int firstNumOfHomework = firstNum;
                         while (firstNumOfHomework <= lastNum - step - step)
                         {
+                            if(firstDay>=new DateTime(2023,10,29)&& firstDay <= new DateTime(2023, 11, 7))
+                            {
+                                firstDay = new DateTime(2023, 11, 8);
+                            }
+
                             dayOfWeek = (int)firstDay.DayOfWeek;//1,2,3,4,5
+
                             while (dayOfWeek > 5 || dayOfWeek == 0)
                             {
                                 firstDay = firstDay.AddDays(1);
                                 dayOfWeek = (int)firstDay.DayOfWeek;//1,2,3,4,5
                             }
                             //var currLesson = lessons[dayOfWeek - 1];
+                            if (firstDay >= new DateTime(2023, 10, 29) && firstDay <= new DateTime(2023, 11, 7))
+                            {
+                                firstDay = new DateTime(2023, 11, 8);
+                            }
 
+                            dayOfWeek = (int)firstDay.DayOfWeek;//1,2,3,4,5
 
                             Plan plan = new Plan();
                             int pozition = (dayOfWeek-1) % lessons.Count;
@@ -175,6 +186,10 @@ namespace Planning_platform.Controllers
 
 
                             //firstNumOfHomework += 1;
+                        }
+                        if (firstDay >= new DateTime(2023, 10, 29) && firstDay <= new DateTime(2023, 11, 7))
+                        {
+                            firstDay = new DateTime(2023, 11, 8);
                         }
                         dayOfWeek = (int)firstDay.DayOfWeek;//1,2,3,4,5
                         while (dayOfWeek > 5 || dayOfWeek == 0)
@@ -206,6 +221,10 @@ namespace Planning_platform.Controllers
                     }
                     catch
                     {
+                        if (firstDay >= new DateTime(2023, 10, 29) && firstDay <= new DateTime(2023, 11, 7))
+                        {
+                            firstDay = new DateTime(2023, 11, 8);
+                        }
                         dayOfWeek = (int)firstDay.DayOfWeek;//1,2,3,4,5
                         while (dayOfWeek > 5 || dayOfWeek == 0)
                         {
@@ -234,6 +253,8 @@ namespace Planning_platform.Controllers
                             homeworkLast.Text = strHomework;
                         }
                         homeworks.Add(homeworkLast);
+                        _context.Add(homeworkLast);
+                        await _context.SaveChangesAsync();
 
                     }
                     if (allLessonsCounter == maxLessonsCounter)
@@ -249,6 +270,7 @@ namespace Planning_platform.Controllers
             //Worksheet worksheet = wb.Worksheets[0];
 
             //ViewData["LessonId"] = new SelectList(_context.Lessons, "Id", "Id");
+            return RedirectToAction("Index","Homeworks");
             return View();
         }
 

@@ -4,7 +4,24 @@
 <table class="table">
     @{foreach (var role in Model){
         <tr>
-            <td>@role.Name</td>
+                @{
+                    if (role.Name == "moderator")
+                    {
+                        <td>Модератор</td>
+                    }
+                    else if (role.Name == "teacher")
+                    {
+                        <td>Учитель</td>
+                    }
+                    else if (role.Name == "student")
+                    {
+                        <td>Ученик</td>
+                    }
+                    else
+                    {
+                        <td>@role.Name</td>
+                    }
+                }
             <td>
                 <form asp-action="Delete" asp-route-id="@role.Id" method="post">
                     <button type="submit" class="btn btn-sm btn-danger">

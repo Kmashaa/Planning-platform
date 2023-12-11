@@ -9,10 +9,27 @@
     <div class="form-group">
         @foreach (IdentityRole role in Model.AllRoles)
         {
-                <input type="radio" name="roles" value="@role.Name"
-                   @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />
 
-            @role.Name <br />
+            <input type="radio" name="roles" value="@role.Name"
+            @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />
+            
+                if (role.Name == "moderator")
+                {
+                    <t>Модератор</t> <br />
+                }
+            else if (role.Name == "teacher")
+            {
+                <t>Учитель</t> <br />
+            }
+            else if (role.Name == "student")
+            {
+                <t>Ученик</t> <br />
+            }
+            else
+            {
+                @role.Name
+            }
+
         }
     </div>
     <button type="submit" class="btn btn-primary">Сохранить</button>

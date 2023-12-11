@@ -3,6 +3,15 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<Planning_platform.Entities.Plan> plans;
+    var orderedPlans = new List<Planning_platform.Entities.Plan>();
+    var counterHomeworks = 0;
+
+    if (User.IsInRole("student"))
+    {
+        plans = ViewData["plans"] as IEnumerable<Planning_platform.Entities.Plan>;
+        orderedPlans = new List<Planning_platform.Entities.Plan>(plans);
+    }
 }
 
 @{
@@ -14,7 +23,7 @@
             </tr>
                 <tr>
                     <th>
-                        Monday
+                        Понедельник
                     </th>
                     @{
                         int counter = 1;
@@ -43,7 +52,7 @@
                 </tr>
                 <tr>
                     <th>
-                        Tuesday
+                        Вторник
                     </th>
                     @{
                         counter = 1;
@@ -72,7 +81,7 @@
                 </tr>
                 <tr>
                     <th>
-                        Wednesday
+                        Среда
                     </th>
                     @{
                         counter = 1;
@@ -101,7 +110,7 @@
                 </tr>
                 <tr>
                     <th>
-                        Thursday
+                        Четверг
                     </th>
                     @{
                         counter = 1;
@@ -130,7 +139,7 @@
                 </tr>
                 <tr>
                     <th>
-                        Friday
+                        Пятница
                     </th>
                     @{
                         counter = 1;
@@ -180,7 +189,7 @@
                 </tr>
                 <tr>
                     <th>
-                         Monday
+                         Понедельник
                     </th>
                     @foreach (var item in Model)
                     {
@@ -195,7 +204,7 @@
                 </tr>
                 <tr>
                     <th>
-                        Tuesday
+                        Вторник
                     </th>
                     @foreach (var item in Model)
                     {
@@ -210,7 +219,7 @@
                 </tr>
                 <tr>
                     <th>
-                        Wednesday
+                        Среда
                     </th>
                     @foreach (var item in Model)
                     {
@@ -225,7 +234,7 @@
                 </tr>
                 <tr>
                     <th>
-                        Thursday
+                        Четверг
                     </th>
                     @foreach (var item in Model)
                     {
@@ -240,7 +249,7 @@
                 </tr>
                 <tr>
                     <th>
-                        Friday
+                        Пятница
                     </th>
                     @foreach (var item in Model)
                     {
@@ -274,12 +283,15 @@
                                     @lesson.Subject.Subject_name
                                 </td>
                                 <td>
-                                    @plan.Date
+                                    @orderedPlans[counterHomeworks].Date.ToShortDateString()
+                                    @*@plan.Date.ToShortDateString()*@
                                 </td>
                                 <td>
                                     @homework.Text
                                 </td>
+                                @{counterHomeworks++;}
                             </tr>
+
                         }
                     }
                 }
@@ -293,25 +305,25 @@
 
 
 
-        <h1>Index</h1>
+        <h1>Уроки</h1>
 
         <p>
-            <a asp-action="Create">Create New</a>
+            <a asp-action="Create">Создать урок</a>
         </p>
         <table class="table">
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Day_of_week)
+                       День недели
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Number_on_day)
+                        Номер
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Subject)
+                       Предмет
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Class)
+                       Класс
                     </th>
                     @*             <th>
                 @Html.DisplayNameFor(model => model.TeacherId)
@@ -327,24 +339,49 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Day_of_week)
+                            @{
+                                if (item.Day_of_week == "Monday")
+                                {
+                                    <t>Понедельник</t>
+                                }
+                                else if (item.Day_of_week == "Tuesday")
+                                {
+                                    <t>Вторник</t>
+                                }
+                                else if (item.Day_of_week == "Wednesday")
+                                {
+                                    <t>Среда</t>
+                                }
+                                else if (item.Day_of_week == "Thursday")
+                                {
+                                    <t>Четверг</t>
+                                }
+                                else if (item.Day_of_week == "Friday")
+                                {
+                                    <t>Пятница</t>
+                                }
+                                else
+                                {
+                                    @item.Day_of_week
+                                }
+                            }
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Number_on_day)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Subject.Id)
+                            @Html.DisplayFor(modelItem => item.Subject.Subject_name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Class.Id)
+                            @Html.DisplayFor(modelItem => item.Class.FullName)
                         </td>
                         @*             <td>
                 @Html.DisplayFor(modelItem => item.TeacherId)
             </td> *@
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Просмотреть</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
                         </td>
                     </tr>
                 }

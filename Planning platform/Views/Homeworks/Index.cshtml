@@ -5,40 +5,58 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Домашние задания</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-controller="Plans">Создать новое планирование</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Plan)
+                Предмет
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Text)
+                Текст
             </th>
-
+            <th>
+                Дата
+            </th>
+            <th>
+                Класс
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Plan.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Text)
-            </td>
+    if(item.Plan.Lesson!=null){
+        @if(item.Plan.Lesson.Subject!=null){
+            @if(item.Plan.Lesson.Subject.Subject_name!=null){
+                <tr>
+                    <td>
+                        @item.Plan.Lesson.Subject.Subject_name
+                    </td>
+
+                    <td>
+                        @item.Text
+                    </td>
+                <td>
+                    @item.Plan.Date.ToShortDateString()
+                </td>
+                <td>
+                    @item.Plan.Lesson.Class.FullName
+                </td>
+
 
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Просмотреть</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
+
         </tr>
-}
+                               }}
+        }}
     </tbody>
 </table>

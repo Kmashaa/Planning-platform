@@ -5,41 +5,42 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Создание</h1>
 
-<h4>Lesson</h4>
+<h4>Урока</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="Day_of_week" class="control-label">День недели</label>
                 <select asp-for="Day_of_week">
-                    <option>Monday</option>
-                    <option>Tuesday</option>
-                    <option>Wednesday</option>
-                    <option>Thursday</option>
-                    <option>Friday</option>
+                    <option value="Monday">Понедельник</option>
+                    <option value="Monday">Вторник</option>
+                    <option value="Monday">Среда</option>
+                    <option value="Monday">Четверг</option>
+                    <option value="Monday">Пятница</option>
                 </select>
                @*  <label asp-for="Day_of_week" class="control-label"></label>
                 <input asp-for="Day_of_week" class="form-control" />
                 <span asp-validation-for="Day_of_week" class="text-danger"></span> *@
             </div>
             <div class="form-group">
-                <label asp-for="Number_on_day" class="control-label"></label>
+                <label asp-for="Number_on_day" class="control-label">Номер</label>
                 <input asp-for="Number_on_day" class="form-control" />
                 <span asp-validation-for="Number_on_day" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SubjectId" class="control-label"></label>
+                <label asp-for="SubjectId" class="control-label">Предмет</label>
                 <select asp-for="SubjectId" class ="form-control" asp-items="ViewBag.SubjectId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="ClassId" class="control-label"></label>
+                <label asp-for="ClassId" class="control-label">Класс</label>
                 <select asp-for="ClassId" class ="form-control" asp-items="ViewBag.ClassId"></select>
             </div>
              <div class="form-group">
-                <label asp-for="TeacherId" class="control-label"></label>
+                <label asp-for="TeacherId" class="control-label">Учитель</label>
                 <select asp-for="TeacherId" class="form-control" asp-items="ViewBag.TeacherId"></select>
             </div> 
 @*             <div class="form-group">
@@ -48,14 +49,14 @@
                 <span asp-validation-for="TeacherId" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Создать" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Вернуться к списку</a>
 </div>
 
 @section Scripts {

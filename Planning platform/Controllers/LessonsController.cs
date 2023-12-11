@@ -57,9 +57,10 @@ namespace Planning_platform.Controllers
                 //var b = homeworks[0].Plan.Lesson.Id;
                 //ApplicationUser student = ;
                 //var userId = await _userManager.GetUserIdAsync(user);
-                DateTime nowDate = new DateTime(2023, 9, 1);
+                DateTime nowDate = DateTime.Now;
                 DateTime lastDate = nowDate.AddDays(7);
                 var lessons = _context.Lessons.Include(l => l.Class).Include(l => l.Subject).Include(l => l.Plans).ToList().Where(p => p.ClassId == classid);
+                var plans = new List<Plan>();
                 foreach (var lesson in lessons)
                 {
                     var tempPlans = new List<Plan>(lesson.Plans);
@@ -68,11 +69,21 @@ namespace Planning_platform.Controllers
                         if (plan.Date > lastDate)
                         {
                             lesson.Plans.Remove(plan);
+                            continue;
                         }
+                        if (plan.Date < nowDate)
+                        {
+                            lesson.Plans.Remove(plan);
+                            continue;
+
+                        }
+                        plans.Add(plan);
+
 
                     }
                 }
-
+                var orderedPlans = from p in plans orderby p.Date select p;
+                ViewData["plans"] = orderedPlans;
                 var orderedLessons = from p in lessons orderby p.Day_of_week select p;
 
                 return View(orderedLessons);
@@ -157,9 +168,9 @@ namespace Planning_platform.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Id", lesson.ClassId);
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", lesson.SubjectId);
-            ViewData["TeacherId"] = new SelectList(_context.Users, "Id", "Id", lesson.TeacherId);
+            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "FullName", lesson.ClassId);
+            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Subject_name", lesson.SubjectId);
+            ViewData["TeacherId"] = new SelectList(_context.Users, "Id", "FullName", lesson.TeacherId);
 
             return View(lesson);
         }
@@ -167,6 +178,22 @@ namespace Planning_platform.Controllers
         // GET: Lessons/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "FullName");
+            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Subject_name");
+            List<ApplicationUser> users = _context.Users.ToList();
+            List<ApplicationUser> teachers = new List<ApplicationUser>();
+            foreach (var item in users)
+            {
+                var userRoles = await _userManager.GetRolesAsync(item);
+                if (userRoles.Contains("teacher"))
+                {
+                    teachers.Add(item);
+
+                }
+
+            }
+            ViewData["TeacherId"] = new SelectList(teachers, "Id", "FullName");
+
             if (id == null || _context.Lessons == null)
             {
                 return NotFound();
@@ -177,8 +204,7 @@ namespace Planning_platform.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Id", lesson.ClassId);
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", lesson.SubjectId);
+            
             return View(lesson);
         }
 
@@ -216,6 +242,8 @@ namespace Planning_platform.Controllers
             }
             ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Id", lesson.ClassId);
             ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", lesson.SubjectId);
+            ViewData["TeacherId"] = new SelectList(_context.Users, "Id", "FullName",lesson.Teacher.Id);
+
             return View(lesson);
         }
 

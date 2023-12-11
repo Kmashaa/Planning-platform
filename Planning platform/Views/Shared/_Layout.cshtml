@@ -19,51 +19,56 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
+                        @{
+                            if (User.IsInRole("teacher"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Announcements" asp-action="Index">Объявления</a>
+                                </li>}}
                         @{
                             if (User.IsInRole("moderator"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Announcements" asp-action="Index">Announcement</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Announcements" asp-action="Index">Объявления</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Classes" asp-action="Index">Classes</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Classes" asp-action="Index">Классы</a>
                         </li>}}
                         @{
                             if (User.IsInRole("teacher"))
                             {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Homeworks" asp-action="Index">Homework</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Homeworks" asp-action="Index">Домашние задания</a>
                         </li>}}
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Lessons" asp-action="Index">Lessons</a>
-                        </li>
+                        @{
+                            if (User.IsInRole("teacher") || User.IsInRole("moderator") || User.IsInRole("student"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Lessons" asp-action="Index">Уроки</a>
+                        </li>}}
                                                 @{
                             if (User.IsInRole("teacher"))
                             {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Plans" asp-action="Index">Plans</a>
-                        </li>
+
+                        // <li class="nav-item">
+                        //     <a class="nav-link text-dark" asp-area="" asp-controller="Plans" asp-action="Index">Plans</a>
+                        // </li>
                             }}
                         @{
                             if (User.IsInRole("moderator"))
                             {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Роли</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Subjects" asp-action="Index">Subjects</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Subjects" asp-action="Index">Предметы</a>
                         </li>
    
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Пользователи</a>
                         </li>}}
 
                     </ul>
