@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Planning_platform.Entities
 {
@@ -17,7 +18,14 @@ namespace Planning_platform.Entities
         public int? ClassId { get; set; }
 
         //public Class? clas {  get; set; }
-
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return Surname + " " + Name + " " + Patronymic;
+            }
+        }
 
 
     }

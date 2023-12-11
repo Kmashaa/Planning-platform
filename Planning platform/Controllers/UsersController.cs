@@ -27,7 +27,23 @@ namespace Planning_platform.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index() => View(_userManager.Users.ToList());
+        [Authorize(Roles = "moderator")]
+
+        public async Task<IActionResult> Index() 
+        {
+            var users = _userManager.Users.ToList();
+            var tempUsers = new List<ApplicationUser>(users);
+            foreach (var user in tempUsers)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (!userRoles.Contains("student"))
+                {
+                    users.Remove(user);
+                }
+            }
+            ViewData["Classses"] = _context.Classes.ToList();
+            return View(users);
+                }
 
 
 
@@ -44,6 +60,8 @@ namespace Planning_platform.Controllers
         //}
 
         // GET: UserController/Details/5
+        [Authorize(Roles = "moderator")]
+
         public ActionResult Details(int id)
         {
             return View();
@@ -71,6 +89,8 @@ namespace Planning_platform.Controllers
         //}
 
         // GET: UserController/Edit/5
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Edit(string userId)
         {
             // получаем пользователя
@@ -96,6 +116,8 @@ namespace Planning_platform.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Edit(string userId, List<int> classes)
         {
             
@@ -130,8 +152,10 @@ namespace Planning_platform.Controllers
             return NotFound();
         }
 
-       
+
         // GET: UserController/Delete/5
+        [Authorize(Roles = "moderator")]
+
         public ActionResult Delete(int id)
         {
             return View();
@@ -140,6 +164,8 @@ namespace Planning_platform.Controllers
         // POST: UserController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "moderator")]
+
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
@@ -152,6 +178,7 @@ namespace Planning_platform.Controllers
             }
         }
 
+        [Authorize(Roles = "moderator")]
         private ApplicationUser CreateUser()
         {
             try

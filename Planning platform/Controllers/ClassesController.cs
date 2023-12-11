@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Classes
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Index()
         {
               return _context.Classes != null ? 
@@ -28,6 +31,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Classes/Details/5
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Classes == null)
@@ -46,6 +51,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Classes/Create
+        [Authorize(Roles = "moderator")]
+
         public IActionResult Create()
         {
             return View();
@@ -56,6 +63,8 @@ namespace Planning_platform.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Create([Bind("Id,Num_of_class,Letter_of_class")] Class @class)
         {
             if (ModelState.IsValid)
@@ -68,6 +77,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Classes/Edit/5
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Classes == null)
@@ -88,6 +99,8 @@ namespace Planning_platform.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Edit(int id, [Bind("Id,Num_of_class,Letter_of_class")] Class @class)
         {
             if (id != @class.Id)
@@ -119,6 +132,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Classes/Delete/5
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Classes == null)
@@ -139,6 +154,8 @@ namespace Planning_platform.Controllers
         // POST: Classes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Classes == null)
@@ -154,6 +171,8 @@ namespace Planning_platform.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        [Authorize(Roles = "moderator")]
 
         private bool ClassExists(int id)
         {

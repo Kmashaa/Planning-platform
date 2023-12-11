@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Subjects
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Index()
         {
               return _context.Subjects != null ? 
@@ -28,6 +31,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Subjects/Details/5
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Subjects == null)
@@ -46,6 +51,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Subjects/Create
+        [Authorize(Roles = "moderator")]
+
         public IActionResult Create()
         {
             return View();
@@ -56,6 +63,8 @@ namespace Planning_platform.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Create([Bind("Id,Subject_name")] Subject subject)
         {
             if (ModelState.IsValid)
@@ -68,6 +77,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Subjects/Edit/5
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Subjects == null)
@@ -88,6 +99,8 @@ namespace Planning_platform.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Edit(int id, [Bind("Id,Subject_name")] Subject subject)
         {
             if (id != subject.Id)
@@ -119,6 +132,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Subjects/Delete/5
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Subjects == null)
@@ -139,6 +154,8 @@ namespace Planning_platform.Controllers
         // POST: Subjects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "moderator")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Subjects == null)
@@ -154,6 +171,8 @@ namespace Planning_platform.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        [Authorize(Roles = "moderator")]
 
         private bool SubjectExists(int id)
         {

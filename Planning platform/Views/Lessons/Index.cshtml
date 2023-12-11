@@ -4,11 +4,180 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @{
-    if (User.IsInRole("student"))
+    if (User.IsInRole("teacher")){
+        <table class="table">
+            <thead>
+            <tr>
+            <td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+            </tr>
+                <tr>
+                    <th>
+                        Monday
+                    </th>
+                    @{
+                        int counter = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        if (item.Day_of_week == "Monday")
+                        {
+                            if (item.Number_on_day != counter)
+                            {
+                                for (int i = counter; i < item.Number_on_day; i++)
+                                {
+                                    <td></td>
+                                    counter++;
+                                }
+                            }
+                            <td>
+                                @item.Class.Num_of_class @item.Class.Letter_of_class
+                                @{
+                                    counter = item.Number_on_day + 1;
+                                }
+                            </td>
+                        }
+
+                    }
+                </tr>
+                <tr>
+                    <th>
+                        Tuesday
+                    </th>
+                    @{
+                        counter = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        if (item.Day_of_week == "Tuesday")
+                        {
+                            if (item.Number_on_day != counter)
+                            {
+                                for (int i=counter; i < item.Number_on_day; i++)
+                                {
+                                    <td></td>
+                                    counter++;
+                                }
+                            }
+                            <td>
+                                @item.Class.Num_of_class @item.Class.Letter_of_class
+                                @{
+                                    counter = item.Number_on_day + 1;
+                                }
+                            </td>
+                        }
+
+                    }
+                </tr>
+                <tr>
+                    <th>
+                        Wednesday
+                    </th>
+                    @{
+                        counter = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        if (item.Day_of_week == "Wednesday")
+                        {
+                            if (item.Number_on_day != counter)
+                            {
+                                for (int i = counter; i < item.Number_on_day; i++)
+                                {
+                                    <td></td>
+                                    counter++;
+                                }
+                            }
+                            <td>
+                                @item.Class.Num_of_class @item.Class.Letter_of_class
+                                @{
+                                    counter = item.Number_on_day + 1;
+                                }
+                            </td>
+                        }
+
+                    }
+                </tr>
+                <tr>
+                    <th>
+                        Thursday
+                    </th>
+                    @{
+                        counter = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        if (item.Day_of_week == "Thursday")
+                        {
+                            if (item.Number_on_day != counter)
+                            {
+                                for (int i = counter; i < item.Number_on_day; i++)
+                                {
+                                    <td></td>
+                                    counter++;
+                                }
+                            }
+                            <td>
+                                @item.Class.Num_of_class @item.Class.Letter_of_class
+                                @{
+                                    counter = item.Number_on_day + 1;
+                                }
+                            </td>
+                        }
+
+                    }
+                </tr>
+                <tr>
+                    <th>
+                        Friday
+                    </th>
+                    @{
+                        counter = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        if (item.Day_of_week == "Friday")
+                        {
+                            if (item.Number_on_day != counter)
+                            {
+                                for (int i = counter; i < item.Number_on_day; i++)
+                                {
+                                    <td></td>
+                                    counter++;
+                                }
+                            }
+                            <td>
+                                @item.Class.Num_of_class @item.Class.Letter_of_class
+                                @{
+                                    counter = item.Number_on_day + 1;
+                                }
+                            </td>
+                        }
+
+                    }
+                </tr>
+
+
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    }
+}
+@{
+    if (User.IsInRole("student") )
     {
       <table class="table">
          <thead>
+                <tr>
+                    <td></td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                </tr>
                 <tr>
                     <th>
                          Monday
@@ -91,58 +260,95 @@
 
         </tbody>
     </table>
+
+        <table>
+            @{
+                foreach (var lesson in Model)
+                {
+                    foreach (var plan in lesson.Plans)
+                    {
+                        foreach (var homework in plan.Homeworks)
+                        {
+                            <tr>
+                                <td>
+                                    @lesson.Subject.Subject_name
+                                </td>
+                                <td>
+                                    @plan.Date
+                                </td>
+                                <td>
+                                    @homework.Text
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            }
+        </table>
     }
 }
-<h1>Index</h1>
+@{
+    if (User.IsInRole("moderator"))
+    {
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Day_of_week)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Number_on_day)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Class)
-            </th>
-@*             <th>
+
+
+        <h1>Index</h1>
+
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Day_of_week)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Number_on_day)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Subject)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Class)
+                    </th>
+                    @*             <th>
                 @Html.DisplayNameFor(model => model.TeacherId)
             </th> *@
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Day_of_week)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Number_on_day)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Class.Id)
-            </td>
-@*             <td>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Day_of_week)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Number_on_day)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Subject.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Class.Id)
+                        </td>
+                        @*             <td>
                 @Html.DisplayFor(modelItem => item.TeacherId)
             </td> *@
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 }
-    </tbody>
-</table>

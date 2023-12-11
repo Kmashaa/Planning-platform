@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Planning_platform.Data;
 using Planning_platform.Entities;
 using Planning_platform.Models;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace Planning_platform.Controllers
@@ -29,20 +31,51 @@ namespace Planning_platform.Controllers
         // GET: Lessons
         public async Task<IActionResult> Index()
         {
+
             if (User.IsInRole("moderator"))
             {
+
                 var applicationDbContext = _context.Lessons.Include(l => l.Class).Include(l => l.Subject);
                 return View(await applicationDbContext.ToListAsync());
             }
-            else if (User.IsInRole("student")) {
+            else if (User.IsInRole("teacher"))
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+
+                var applicationDbContext = _context.Lessons.Include(l => l.Class).Include(l => l.Subject);
+                var lst = applicationDbContext.Where(p => p.Teacher.Id == user.Id).ToList();
+                var orderedLessons = from p in lst orderby p.Number_on_day select p;
+
+                return View(orderedLessons);
+
+            }
+            else if (User.IsInRole("student"))
+            {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 var classid = user.ClassId;
+                var homeworks = _context.Plans.Include(l => l.Homeworks).ToList();
+                //var b = homeworks[0].Plan.Lesson.Id;
                 //ApplicationUser student = ;
                 //var userId = await _userManager.GetUserIdAsync(user);
+                DateTime nowDate = new DateTime(2023, 9, 1);
+                DateTime lastDate = nowDate.AddDays(7);
+                var lessons = _context.Lessons.Include(l => l.Class).Include(l => l.Subject).Include(l => l.Plans).ToList().Where(p => p.ClassId == classid);
+                foreach (var lesson in lessons)
+                {
+                    var tempPlans = new List<Plan>(lesson.Plans);
+                    foreach (var plan in tempPlans)
+                    {
+                        if (plan.Date > lastDate)
+                        {
+                            lesson.Plans.Remove(plan);
+                        }
 
-                var applicationDbContext = _context.Lessons.Include(l => l.Class).Include(l => l.Subject).ToList().Where(p=>p.ClassId==classid);
-                var a = 0;
-                return View(applicationDbContext);
+                    }
+                }
+
+                var orderedLessons = from p in lessons orderby p.Day_of_week select p;
+
+                return View(orderedLessons);
 
             }
             return View();
@@ -59,6 +92,7 @@ namespace Planning_platform.Controllers
             var lesson = await _context.Lessons
                 .Include(l => l.Class)
                 .Include(l => l.Subject)
+                .Include(l=>l.Teacher)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (lesson == null)
             {
@@ -68,10 +102,13 @@ namespace Planning_platform.Controllers
             return View(lesson);
         }
 
+
+
         // GET: Lessons/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Num_of_class");
+
+            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "FullName");
             ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Subject_name");
             List<ApplicationUser> users = _context.Users.ToList();
             List<ApplicationUser> teachers = new List<ApplicationUser>();
@@ -85,7 +122,7 @@ namespace Planning_platform.Controllers
                 }
 
             }
-            ViewData["TeacherId"] = new SelectList(teachers, "Id", "Id");
+            ViewData["TeacherId"] = new SelectList(teachers, "Id", "FullName");
 
             //string roleName = "Admin";
             //var role = _roleManager.Roles.SingleAsync(r => r.Name == roleName);
@@ -107,14 +144,16 @@ namespace Planning_platform.Controllers
             lesson.Subject = null;
             //lesson.Class = clas;
             //lesson.Subject = subject;
+            Lesson leson = lesson;
+
             ApplicationUser teacher = _context.Users.Find(lesson.TeacherId);
-            //lesson.Teacher = teacher;
-            lesson.Teacher = null;
+            leson.Teacher = teacher;
+            //lesson.Teacher = null;
 
             var a = ModelState;
             if (ModelState.IsValid)
             {
-                _context.Add(lesson);
+                _context.Add(leson);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

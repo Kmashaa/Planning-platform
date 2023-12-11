@@ -2,31 +2,61 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Planning_platform.Data;
 using Planning_platform.Entities;
+using Planning_platform.Migrations;
 
 namespace Planning_platform.Controllers
 {
     public class HomeworksController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public HomeworksController(ApplicationDbContext context)
+        RoleManager<IdentityRole> _roleManager;
+        UserManager<ApplicationUser> _userManager;
+        public HomeworksController(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         // GET: Homework
+        [Authorize(Roles = "teacher")]
+
         public async Task<IActionResult> Index()
         {
+
+            DateTime nowDate = new DateTime(2023, 9, 1);
+            DateTime lastDate = nowDate.AddDays(7);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var lessons = _context.Lessons.Include(l => l.Class).Include(l => l.Subject).Include(l => l.Plans).Where(p => p.Teacher.Id==user.Id).ToList();
+            foreach (var lesson in lessons)
+            {
+                var tempPlans = new List<Plan>(lesson.Plans);
+                foreach (var plan in tempPlans)
+                {
+                    if (plan.Date > lastDate)
+                    {
+                        lesson.Plans.Remove(plan);
+                    }
+
+                }
+            }
+            var orderedLessons = from p in lessons orderby p.Number_on_day select p;
+
+
             var applicationDbContext = _context.Homeworks.Include(h => h.Plan);
             return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Homework/Details/5
+        [Authorize(Roles = "teacher")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Homeworks == null)
@@ -46,6 +76,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Homework/Create
+        [Authorize(Roles = "teacher")]
+
         public IActionResult Create()
         {
             ViewData["PlanId"] = new SelectList(_context.Plans, "Id", "Id");
@@ -57,7 +89,9 @@ namespace Planning_platform.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PlanId,Text,Is_publiched")] Homework homework)
+        [Authorize(Roles = "teacher")]
+
+        public async Task<IActionResult> Create([Bind("Id,PlanId,Text")] Homework homework)
         {
             if (ModelState.IsValid)
             {
@@ -70,6 +104,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Homework/Edit/5
+        [Authorize(Roles = "teacher")]
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Homeworks == null)
@@ -91,8 +127,11 @@ namespace Planning_platform.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PlanId,Text,Is_publiched")] Homework homework)
+        [Authorize(Roles = "teacher")]
+
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PlanId,Text")] Homework homework)
         {
+            homework.Plan = null;
             if (id != homework.Id)
             {
                 return NotFound();
@@ -123,6 +162,8 @@ namespace Planning_platform.Controllers
         }
 
         // GET: Homework/Delete/5
+        [Authorize(Roles = "teacher")]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Homeworks == null)
@@ -144,6 +185,8 @@ namespace Planning_platform.Controllers
         // POST: Homework/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "teacher")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Homeworks == null)
@@ -159,6 +202,8 @@ namespace Planning_platform.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        [Authorize(Roles = "teacher")]
 
         private bool HomeworkExists(int id)
         {

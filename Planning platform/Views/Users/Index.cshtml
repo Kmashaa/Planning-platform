@@ -1,4 +1,5 @@
 ﻿@* @model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>  *@
+@using Planning_platform.Entities
 @model  IEnumerable<Planning_platform.Entities.ApplicationUser> 
 
 
@@ -6,6 +7,8 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var classes = ViewData["Classses"] as IEnumerable<Class>;
+
 }
 
 
@@ -29,6 +32,18 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Patronymic)
+            </td>
+            <td>
+                    @{
+                        foreach(var clas in classes)
+                        {
+                            if (clas.Id == item.ClassId)
+                            {
+                                @clas.Num_of_class @clas.Letter_of_class
+                                break;
+                            }
+                        }
+                    }
             </td>
             <td>
                 <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-userid="@item.Id">Редактировать класс</a>

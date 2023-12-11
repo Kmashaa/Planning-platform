@@ -1,4 +1,4 @@
-﻿@model Planning_platform.Models.LessonModel
+﻿@model Planning_platform.Entities.Lesson
 
 @{
     ViewData["Title"] = "Details";
@@ -27,19 +27,19 @@
             @Html.DisplayNameFor(model => model.Subject)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Subject.Id)
+            @Html.DisplayFor(model => model.Subject.Subject_name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Class)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Class.Id)
+            @Html.DisplayFor(model => model.Class.Num_of_class)  @Html.DisplayFor(model => model.Class.Letter_of_class)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TeacherId)
+            Teacher
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TeacherId)
+            @Html.DisplayFor(model => model.Teacher.Surname) @Html.DisplayFor(model => model.Teacher.Name) @Html.DisplayFor(model => model.Teacher.Patronymic)
         </dd>
     </dl>
 </div>
