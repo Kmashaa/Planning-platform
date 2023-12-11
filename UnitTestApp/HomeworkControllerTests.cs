@@ -15,86 +15,95 @@ using Planning_platform.Controllers;
 using Planning_platform.Data;
 using Planning_platform.Entities;
 using Xunit;
+using Microsoft.AspNetCore.Identity;
 
 namespace UnitTestApp
 {
     
     public class HomeworksControllerTests
     {
-       //[Fact]
-       // public void TestLoadHomeworks()
-       // {
-       //     ApplicationDbContext context=null;
-       //     // Arrange
-       //     HomeworkController controller = new HomeworkController(context);
-       //     // Act
-       //     Task<IActionResult> result = controller.Index();
-       //     //ViewResult result = controller.Index() as ViewResult;
-       //     // Assert
-       //     Assert.NotNull(result);
-       // }
+        [Fact]
+        public void TestLoadHomeworks()
+        {
+            ApplicationDbContext context = null;
+            RoleManager<IdentityRole> _roleManager = null;
+            UserManager<ApplicationUser> _userManager = null;
+            // Arrange
+            HomeworksController controller = new HomeworksController(context, _roleManager, _userManager);
+            // Act
+            Task<IActionResult> result = controller.Index();
+            //ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.NotNull(result);
+        }
 
-       // [Fact]
-       // public void TestCreateHomework()
-       // {
-       //     ApplicationDbContext context = null;
+        [Fact]
+        public void TestCreateHomework()
+        {
+            ApplicationDbContext context = null;
 
-       //     Homework homework = new Homework();
-       //     homework.Id = 1;
-       //     homework.Text="test";
-       //     homework.Plan_id = 1;
-       //     homework.Is_publiched = true;
-            
+            Homework homework = new Homework();
+            homework.Id = 1;
+            homework.Text = "test";
 
 
-       //     // Arrange
-       //     HomeworkController controller = new HomeworkController(context);
-       //     // Act
-       //     Task<IActionResult> result = controller.Create(homework);
-       //     //ViewResult result = controller.Index() as ViewResult;
-       //     // Assert
-       //     Assert.NotNull(result);
-       // }
+            RoleManager<IdentityRole> _roleManager = null;
+            UserManager<ApplicationUser> _userManager = null;
 
-       // [Fact]
-       // public void TestDeleteHomework()
-       // {
-       //     ApplicationDbContext context = null;
-       //     // Arrange
-       //     HomeworkController controller = new HomeworkController(context);
-       //     // Act
-       //     Task<IActionResult> result = controller.Delete(1);
-       //     //ViewResult result = controller.Index() as ViewResult;
-       //     // Assert
-       //     Assert.NotNull(result);
-       // }
+            // Arrange
+            HomeworksController controller = new HomeworksController(context, _roleManager, _userManager);
+        // Act
+        Task<IActionResult> result = controller.Create(homework);
+        //ViewResult result = controller.Index() as ViewResult;
+        // Assert
+        Assert.NotNull(result);
+         }
 
-       // [Fact]
-       // public void TestLoadDetailsOfHomework()
-       // {
-       //     ApplicationDbContext context = null;
-       //     // Arrange
-       //     HomeworkController controller = new HomeworkController(context);
-       //     // Act
-       //     Task<IActionResult> result = controller.Details(1);
-       //     //ViewResult result = controller.Index() as ViewResult;
-       //     // Assert
-       //     Assert.NotNull(result);
-       // }
+    [Fact]
+        public void TestDeleteHomework()
+        {
+            ApplicationDbContext context = null;
+            RoleManager<IdentityRole> _roleManager = null;
+            UserManager<ApplicationUser> _userManager = null;
+            // Arrange
+            HomeworksController controller = new HomeworksController(context, _roleManager, _userManager);
+            // Act
+            Task<IActionResult> result = controller.Delete(1);
+            //ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.NotNull(result);
+        }
 
-       // [Fact]
-       // public void TestEditHomework()
-       // {
-       //     ApplicationDbContext context = null;
-       //     // Arrange
-       //     HomeworkController controller = new HomeworkController(context);
-       //     // Act
-       //     Task<IActionResult> result = controller.Edit(1);
-       //     //ViewResult result = controller.Index() as ViewResult;
-       //     // Assert
-       //     Assert.NotNull(result);
+        [Fact]
+        public void TestLoadDetailsOfHomework()
+        {
+            ApplicationDbContext context = null;
+            RoleManager<IdentityRole> _roleManager = null;
+            UserManager<ApplicationUser> _userManager = null;
+            // Arrange
+            HomeworksController controller = new HomeworksController(context, _roleManager, _userManager);
+            // Act
+            Task<IActionResult> result = controller.Details(1);
+            //ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.NotNull(result);
+        }
 
-       // }
+        [Fact]
+        public void TestEditHomework()
+        {
+            ApplicationDbContext context = null;
+            RoleManager<IdentityRole> _roleManager=null;
+            UserManager<ApplicationUser> _userManager=null;
+            // Arrange
+            HomeworksController controller = new HomeworksController(context, _roleManager, _userManager);
+            // Act
+            Task<IActionResult> result = controller.Edit(1);
+            //ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.NotNull(result);
+
+        }
     }
 }
 

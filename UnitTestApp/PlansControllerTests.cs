@@ -15,86 +15,95 @@ using Planning_platform.Controllers;
 using Planning_platform.Data;
 using Planning_platform.Entities;
 using Xunit;
+using Microsoft.AspNetCore.Identity;
 
 namespace UnitTestApp
 {
     
     public class PlansControllerTests
     {
-       //[Fact]
-       // public void TestLoadPlans()
-       // {
-       //     ApplicationDbContext context=null;
-       //     // Arrange
-       //     ReviewsController controller = new ReviewsController(context);
-       //     // Act
-       //     Task<IActionResult> result = controller.Index();
-       //     //ViewResult result = controller.Index() as ViewResult;
-       //     // Assert
-       //     Assert.NotNull(result);
-       // }
+        [Fact]
+        public void TestLoadPlans()
+        {
+            ApplicationDbContext context = null;
+            RoleManager<IdentityRole> _roleManager = null;
+            UserManager<ApplicationUser> _userManager = null;
+            // Arrange
+            PlansController controller = new PlansController(context, _roleManager, _userManager);
+            // Act
+            Task<IActionResult> result = controller.Index();
+            //ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.NotNull(result);
+        }
 
-       // [Fact]
-       // public void TestCreatePlan()
-       // {
-       //     ApplicationDbContext context = null;
+        [Fact]
+        public void TestCreatePlan()
+        {
+            ApplicationDbContext context = null;
+            RoleManager<IdentityRole> _roleManager = null;
+            UserManager<ApplicationUser> _userManager = null;
 
-       //     Review review = new Review();
-       //     review.Student_id = 1;
-       //     review.Teacher_id = 2;
-       //     review.Date = DateTime.Now;
-       //     review.Text = "Test";
+            Plan plan = new Plan();
+
+            plan.Date = DateTime.Now;
 
 
+            // Arrange
+            PlansController controller = new PlansController(context, _roleManager, _userManager);
+            // Act
+            Task<IActionResult> result = controller.Create(plan);
+            //ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.NotNull(result);
+        }
 
-       //     // Arrange
-       //     ReviewsController controller = new ReviewsController(context);
-       //     // Act
-       //     Task<IActionResult> result = controller.Create(review);
-       //     //ViewResult result = controller.Index() as ViewResult;
-       //     // Assert
-       //     Assert.NotNull(result);
-       // }
+        [Fact]
+        public void TestDeletePlan()
+        {
+            ApplicationDbContext context = null;
+            RoleManager<IdentityRole> _roleManager = null;
+            UserManager<ApplicationUser> _userManager = null;
+            // Arrange
+            PlansController controller = new PlansController(context, _roleManager, _userManager);
+            // Act
+            Task<IActionResult> result = controller.Delete(1);
+            //ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.NotNull(result);
+        }
 
-       // [Fact]
-       // public void TestDeletePlan()
-       // {
-       //     ApplicationDbContext context = null;
-       //     // Arrange
-       //     ReviewsController controller = new ReviewsController(context);
-       //     // Act
-       //     Task<IActionResult> result = controller.Delete(1);
-       //     //ViewResult result = controller.Index() as ViewResult;
-       //     // Assert
-       //     Assert.NotNull(result);
-       // }
+        [Fact]
+        public void TestLoadDetailsOfPlan()
+        {
+            ApplicationDbContext context = null;
+            RoleManager<IdentityRole> _roleManager = null;
+            UserManager<ApplicationUser> _userManager = null;
+            // Arrange
+            PlansController controller = new PlansController(context, _roleManager, _userManager);
+            // Act
+            Task<IActionResult> result = controller.Details(1);
+            //ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.NotNull(result);
+        }
 
-       // [Fact]
-       // public void TestLoadDetailsOfPlan()
-       // {
-       //     ApplicationDbContext context = null;
-       //     // Arrange
-       //     ReviewsController controller = new ReviewsController(context);
-       //     // Act
-       //     Task<IActionResult> result = controller.Details(1);
-       //     //ViewResult result = controller.Index() as ViewResult;
-       //     // Assert
-       //     Assert.NotNull(result);
-       // }
+        [Fact]
+        public void TestEditPlan()
+        {
 
-       // [Fact]
-       // public void TestEditPlan()
-       // {
-       //     ApplicationDbContext context = null;
-       //     // Arrange
-       //     ReviewsController controller = new ReviewsController(context);
-       //     // Act
-       //     Task<IActionResult> result = controller.Edit(1);
-       //     //ViewResult result = controller.Index() as ViewResult;
-       //     // Assert
-       //     Assert.NotNull(result);
+            ApplicationDbContext context = null;
+            RoleManager<IdentityRole> _roleManager = null;
+            UserManager<ApplicationUser> _userManager = null;
+            // Arrange
+            PlansController controller = new PlansController(context, _roleManager, _userManager);
+            // Act
+            Task<IActionResult> result = controller.Edit(1);
+            //ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.NotNull(result);
 
-       // }
+        }
 
     }
 }
